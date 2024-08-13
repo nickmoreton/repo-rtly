@@ -1,7 +1,30 @@
-import { app, shell, BrowserWindow, ipcMain, nativeTheme } from 'electron'
+import { app, shell, BrowserWindow, ipcMain, nativeTheme, dialog } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
+import fs from 'fs'
+import path from 'path'
+
+// Function to get all files recursively in a specific directory
+function getFilesRecursive(dir) {
+  let results = []
+  const list = fs.readdirSync(dir)
+
+  list.forEach((file) => {
+    const filePath = path.join(dir, file)
+    const stat = fs.statSync(filePath)
+
+    if (stat && stat.isDirectory()) {
+      // Recurse into a subdirectory
+      results = results.concat(getFilesRecursive(filePath))
+    } else {
+      // Is a file
+      results.push(filePath)
+    }
+  })
+
+  return results
+}
 
 function createWindow() {
   // Create the browser window.
@@ -66,6 +89,26 @@ app.whenReady().then(() => {
   ipcMain.handle('dark-mode:system', () => {
     nativeTheme.themeSource = 'system'
   })
+
+  // Open dialog directory
+  ipcMain.handle('open-dialog-directoy', () => {
+    return dialog.showOpenDialog({ properties: ['openDirectory'] })
+  })
+
+  // Open dialog file
+  // ipcMain.handle('open-dialog-file', () => {
+  //   return dialog.showOpenDialog({ properties: ['openFile'] })
+  // })
+
+  // Given a path, recursivley return the list of files
+  ipcMain.handle('file-list', (event, path) => {
+    return getFilesRecursive(path)
+  })
+
+  // Given a path, return the file that matches the Dockerfile regex
+  // ipcMain.handle('find-file', (event) => {
+  //   console.log(event)
+  // })
 
   createWindow()
 
