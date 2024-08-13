@@ -1,6 +1,6 @@
 # repo-rtly
 
-A minimal Electron application with JavaScript
+A Electron application to report details about dependencies and other useful info fo a local or remote git repo.
 
 ## Recommended IDE Setup
 
