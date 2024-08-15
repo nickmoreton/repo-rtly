@@ -5,8 +5,6 @@ class ChooseFiles {
   constructor(element) {
     this.el = element
     this.articles = this.el.querySelectorAll('article')
-    // this.input = this.el.querySelector('input')
-    // this.button = this.el.querySelector('button')
     this.files = []
   }
 
@@ -16,6 +14,14 @@ class ChooseFiles {
       el.querySelector('select').setAttribute('disabled', 'true')
       el.querySelector('select').innerHTML = ''
     })
+  }
+
+  extractDockerInfo(value) {
+    console.log('extracting docker info', value)
+  }
+
+  extractPyprojectTomlInfo(value) {
+    console.log('extracting pyproject.toml info', value)
   }
 
   getDockerFiles(files) {
@@ -62,6 +68,10 @@ class ChooseFiles {
         option.text = el
         select.appendChild(option)
       })
+      select.addEventListener('change', (event) => {
+        this.extractDockerInfo(event.target.options[event.target.selectedIndex].value)
+      })
+      this.extractDockerInfo(select.options[select.selectedIndex].value)
     })
 
     // populate pyproject.toml select
@@ -73,6 +83,10 @@ class ChooseFiles {
         option.text = el
         select.appendChild(option)
       })
+      select.addEventListener('change', (event) => {
+        this.extractPyprojectTomlInfo(event.target.options[event.target.selectedIndex].value)
+      })
+      this.extractPyprojectTomlInfo(select.options[select.selectedIndex].value)
     })
 
     this.articles.forEach((el) => {
