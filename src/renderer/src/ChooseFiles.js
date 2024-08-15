@@ -17,11 +17,33 @@ class ChooseFiles {
   }
 
   extractDockerInfo(value) {
-    console.log('extracting docker info', value)
+    window.api.getFileContent(value).then((result) => {
+      console.log(result)
+      const lines = result.split('\n')
+      const dockerInfo = {
+        pythonVersion: '',
+        nodeVersion: '',
+        poetryVersion: ''
+      }
+      lines.forEach((line) => {
+        if (line.includes('FROM python')) {
+          dockerInfo.pythonVersion = line.split(' ')[1].split(':')[1]
+        }
+        if (line.includes('FROM node')) {
+          dockerInfo.nodeVersion = line.split(' ')[1].split(':')[1]
+        }
+        if (line.includes('ARG POETRY_VERSION')) {
+          dockerInfo.poetryVersion = line.split(' ')[1].split('=')[1]
+        }
+      })
+      console.log('extracting docker info', dockerInfo)
+    })
   }
 
   extractPyprojectTomlInfo(value) {
-    console.log('extracting pyproject.toml info', value)
+    window.api.getFileContent(value).then((result) => {
+      console.log(result)
+    })
   }
 
   getDockerFiles(files) {

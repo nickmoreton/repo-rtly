@@ -6,7 +6,8 @@ const api = {
   openDialogDirectory: () => ipcRenderer.invoke('open-dialog-directoy'),
   openDialogFile: () => ipcRenderer.invoke('open-dialog-file'),
   findFile: (path) => ipcRenderer.invoke('find-file', path),
-  fileList: (path) => ipcRenderer.invoke('file-list', path)
+  fileList: (path) => ipcRenderer.invoke('file-list', path),
+  getFileContent: (path) => ipcRenderer.invoke('get-file-content', path)
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to

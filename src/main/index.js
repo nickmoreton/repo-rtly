@@ -95,20 +95,15 @@ app.whenReady().then(() => {
     return dialog.showOpenDialog({ properties: ['openDirectory'] })
   })
 
-  // Open dialog file
-  // ipcMain.handle('open-dialog-file', () => {
-  //   return dialog.showOpenDialog({ properties: ['openFile'] })
-  // })
-
   // Given a path, recursivley return the list of files
   ipcMain.handle('file-list', (event, path) => {
     return getFilesRecursive(path)
   })
 
-  // Given a path, return the file that matches the Dockerfile regex
-  // ipcMain.handle('find-file', (event) => {
-  //   console.log(event)
-  // })
+  // Given a path, return the content of the file
+  ipcMain.handle('get-file-content', (event, path) => {
+    return fs.readFileSync(path, 'utf-8').toString()
+  })
 
   createWindow()
 
