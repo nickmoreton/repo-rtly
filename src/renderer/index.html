@@ -52,7 +52,7 @@
         </article>
       </div>
       <div id="choose-files" class="container-fluid">
-        <div class="grid">
+        <div class="">
           <article>
             <!-- Dockerfile -->
             <header>
@@ -60,7 +60,14 @@
             </header>
             <div role="group" id="choose-dockerfile">
               <select type="text" placeholder="Select the full path to the Dockerfile"></select>  
-              <!-- <button>Browse</button> -->
+            </div>
+            <div id="dockerfile-info">
+              <textarea id="dockerfile-contents" rows="8">FROM PYTHON</textarea>
+              <ul id="dockerfile-versions">
+                <li>Python: <span id="python-version">N/A</span></li>
+                <li>Node: <span id="node-version">N/A</span></li>
+                <li>Poetry: <span id="poetry-version">N/A</span></li>
+              </ul>
             </div>
             <footer>
               Used to determine the <strong>python</strong>, <strong>node</strong> and
