@@ -1,5 +1,6 @@
 import ChooseFiles from './ChooseFiles'
 import ChooseFolder from './ChooseFolder'
+import UiSettings from './UiSettings'
 
 function init() {
   window.addEventListener('DOMContentLoaded', () => {
@@ -41,6 +42,9 @@ function electron() {
 }
 
 function app() {
+  const uiSettings = new UiSettings()
+  uiSettings.init()
+
   const chooseFolder = new ChooseFolder(document.getElementById('choose-folder'))
   chooseFolder.init()
 
@@ -55,6 +59,12 @@ function app() {
   window.addEventListener('folder-selecting', () => {
     // listeners for the folder-selecting event
     chooseFiles.folderSelecting()
+  })
+
+  window.addEventListener('reset-settings', () => {
+    // listeners for the reset-settings event
+    chooseFiles.reset()
+    chooseFolder.reset()
   })
 }
 

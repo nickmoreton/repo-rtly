@@ -42,6 +42,10 @@ class ChooseFolder {
       })
     })
   }
+
+  reset() {
+    this.input.value = ''
+  }
 }
 
 export default ChooseFolder

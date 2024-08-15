@@ -14,27 +14,8 @@ class ChooseFiles {
     this.articles.forEach((el) => {
       el.style.opacity = 0.2
       el.querySelector('select').setAttribute('disabled', 'true')
-      // el.style.display = 'none'
-      // el.querySelector('button').setAttribute('disabled', 'true')
-      // el.querySelector('select').setAttribute('disabled', 'true')
+      el.querySelector('select').innerHTML = ''
     })
-    // this.button.addEventListener('click', () => {
-    //   window.api.openDialogFile().then((result) => {
-    //     if (result.canceled) {
-    //       console.log('No files selected')
-    //       return
-    //     }
-    //     this.files = result.filePaths
-    //     this.el.dispatchEvent(
-    //       new CustomEvent('files-selected', {
-    //         detail: result.filePaths,
-    //         bubbles: true,
-    //         cancelable: true,
-    //         composed: true
-    //       })
-    //     )
-    //   })
-    // })
   }
 
   getDockerFiles(files) {
@@ -101,6 +82,14 @@ class ChooseFiles {
   }
 
   folderSelecting() {
+    this.articles.forEach((el) => {
+      el.style.opacity = 0.2
+      el.querySelector('select').setAttribute('disabled', 'true')
+      el.querySelector('select').innerHTML = ''
+    })
+  }
+
+  reset() {
     this.articles.forEach((el) => {
       el.style.opacity = 0.2
       el.querySelector('select').setAttribute('disabled', 'true')
