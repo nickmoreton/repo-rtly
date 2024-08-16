@@ -110,40 +110,14 @@ app.whenReady().then(() => {
     return getFileContent(path)
   })
 
-  ipcMain.handle('run-docker-image', (event, python, poetry, folder) => {
+  ipcMain.handle('build-docker-image', (event, python, poetry, folder) => {
     const docker = new Docker(python, poetry, folder)
+    docker.build()
+  })
+
+  ipcMain.handle('run-docker-image', (event) => {
+    const docker = new Docker()
     docker.run()
-    // build a docker image using a child process
-    // const docker = spawn('docker', ['run', '-it', 'python:3.8.5-slim-buster', 'bash'])
-    // const out = []
-    // const { spawn } = require('node:child_process')
-    // // const ls = spawn('ls', ['-lh', '/usr'])
-    // const ls = spawn('docker', [
-    //   'run',
-    //   '-v',
-    //   '/Users/nickmoreton/Sites/afc-wagtail:/app',
-    //   '-w',
-    //   '/app',
-    //   `python:${python}`,
-    //   'bash',
-    //   '-c',
-    //   `pip install poetry==${poetry} && poetry export --without-hashes`
-    // ])
-
-    // ls.stdout.on('data', (data) => {
-    //   console.log(`stdout: ${data}`)
-    //   out.push(data)
-    // })
-
-    // ls.stderr.on('data', (data) => {
-    //   console.error(`stderr: ${data}`)
-    //   out.push(data)
-    // })
-
-    // ls.on('close', (code) => {
-    //   console.log(`child process exited with code ${code}`)
-    //   console.log(out.join(''))
-    // })
   })
 
   createWindow()

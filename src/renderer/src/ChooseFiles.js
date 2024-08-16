@@ -15,7 +15,7 @@ class ChooseFiles {
       const python = this.dockerInfo.pythonVersion
       const poetry = this.dockerInfo.poetryVersion
       const folder = this.folder
-      window.api.runDockerImage(python, poetry, folder).then((result) => {
+      window.api.buildDockerImage(python, poetry, folder).then((result) => {
         console.log(result)
       })
     })

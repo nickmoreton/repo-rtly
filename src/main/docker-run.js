@@ -1,29 +1,34 @@
 import { spawn } from 'child_process'
+import path from 'path'
 
 class Docker {
-  constructor(python, poetry) {
-    this.python = python
-    this.poetry = poetry
-    this.cmd = this.command()
-  }
-
-  command() {
-    return [
-      'run',
-      '-v',
-      '/Users/nickmoreton/Sites/afc-wagtail:/app',
-      '-w',
-      '/app',
-      `python:${this.python}`,
-      'bash',
-      '-c',
-      `pip install poetry==${this.poetry} && poetry export --without-hashes`
-    ]
+  constructor(python, poetry, folder) {
+    this.python = `python:${python}`
+    this.poetry = `${poetry}`
+    this.folder = `${folder}`
   }
 
   run() {
     const out = []
-    const ls = spawn('docker', this.cmd)
+    const ls = spawn('docker', ['run', '-t', '--rm', ''])
+  }
+
+  build() {
+    const out = []
+    const ls = spawn('docker', [
+      'build',
+      '--build-arg',
+      `PYTHON_VERSION=${this.python}`,
+      '--build-arg',
+      `POETRY_VERSION=${this.poetry}`,
+      '--build-arg',
+      `REPO_PATH=${this.folder}`,
+      '-t',
+      'repo-rtly',
+      '-f',
+      path.resolve(path.resolve(__dirname, '../..'), 'src/main/Dockerfile.base'),
+      `${this.folder}`
+    ])
 
     ls.stdout.on('data', (data) => {
       console.log(`stdout: ${data}`)
@@ -43,35 +48,3 @@ class Docker {
 }
 
 export default Docker
-
-/**
- * const out = []
-    const { spawn } = require('node:child_process')
-    // const ls = spawn('ls', ['-lh', '/usr'])
-    const ls = spawn('docker', [
-      'run',
-      '-v',
-      '/Users/nickmoreton/Sites/afc-wagtail:/app',
-      '-w',
-      '/app',
-      `python:${python}`,
-      'bash',
-      '-c',
-      `pip install poetry==${poetry} && poetry export --without-hashes`
-    ])
-
-    ls.stdout.on('data', (data) => {
-      console.log(`stdout: ${data}`)
-      out.push(data)
-    })
-
-    ls.stderr.on('data', (data) => {
-      console.error(`stderr: ${data}`)
-      out.push(data)
-    })
-
-    ls.on('close', (code) => {
-      console.log(`child process exited with code ${code}`)
-      console.log(out.join(''))
-    })
-    */

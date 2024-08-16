@@ -8,8 +8,8 @@ const api = {
   findFile: (path) => ipcRenderer.invoke('find-file', path),
   fileList: (path) => ipcRenderer.invoke('file-list', path),
   getFileContent: (path) => ipcRenderer.invoke('get-file-content', path),
-  runDockerImage: (python, poetry, folder) =>
-    ipcRenderer.invoke('run-docker-image', python, poetry, folder)
+  buildDockerImage: (python, poetry, folder) =>
+    ipcRenderer.invoke('build-docker-image', python, poetry, folder)
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to
