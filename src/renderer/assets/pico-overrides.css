@@ -13,6 +13,11 @@
     white-space: nowrap;
 }
 
+#dockerfiles label:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
 /*
 [data-theme="light"] body {
     --custom-light-body-background: #f3f3f3;
