@@ -4,6 +4,7 @@ class ChooseFiles {
     this.article = this.el.querySelector('#choose-dockerfile')
     this.dockerfiles = this.el.querySelector('#choose-dockerfile #dockerfiles')
     this.buildButton = this.el.querySelector('#choose-dockerfile #build-button')
+    this.folder = ''
     this.files = []
   }
 
@@ -13,7 +14,8 @@ class ChooseFiles {
     this.buildButton.addEventListener('click', () => {
       const python = this.dockerInfo.pythonVersion
       const poetry = this.dockerInfo.poetryVersion
-      window.api.runDockerImage(python, poetry).then((result) => {
+      const folder = this.folder
+      window.api.runDockerImage(python, poetry, folder).then((result) => {
         console.log(result)
       })
     })
@@ -73,7 +75,8 @@ class ChooseFiles {
   }
 
   folderSelected(event) {
-    this.getDockerFiles(event.detail).then((result) => {
+    this.folder = event.detail.folder
+    this.getDockerFiles(event.detail.result).then((result) => {
       result.forEach((el) => {
         const item = document.createElement('p')
         const input = document.createElement('input')

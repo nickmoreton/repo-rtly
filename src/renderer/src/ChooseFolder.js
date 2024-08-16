@@ -29,7 +29,10 @@ class ChooseFolder {
           this.result = result
           this.el.dispatchEvent(
             new CustomEvent('folder-selected', {
-              detail: this.result,
+              detail: {
+                result: result, // all the files in the folder
+                folder: this.input.value // the folder path
+              },
               bubbles: true,
               cancelable: true,
               composed: true

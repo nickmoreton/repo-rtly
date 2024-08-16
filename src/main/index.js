@@ -110,8 +110,8 @@ app.whenReady().then(() => {
     return getFileContent(path)
   })
 
-  ipcMain.handle('run-docker-image', (event, python, poetry) => {
-    const docker = new Docker(python, poetry)
+  ipcMain.handle('run-docker-image', (event, python, poetry, folder) => {
+    const docker = new Docker(python, poetry, folder)
     docker.run()
     // build a docker image using a child process
     // const docker = spawn('docker', ['run', '-it', 'python:3.8.5-slim-buster', 'bash'])

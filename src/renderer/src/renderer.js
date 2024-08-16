@@ -51,9 +51,10 @@ function app() {
   const chooseFiles = new ChooseFiles(document.getElementById('choose-files'))
   chooseFiles.init()
 
-  window.addEventListener('folder-selected', (result) => {
+  window.addEventListener('folder-selected', (event) => {
     // listeners for the folder-selected event
-    chooseFiles.folderSelected(result)
+    console.log(event)
+    chooseFiles.folderSelected(event)
   })
 
   window.addEventListener('folder-selecting', () => {

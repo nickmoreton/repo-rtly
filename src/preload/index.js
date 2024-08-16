@@ -8,7 +8,8 @@ const api = {
   findFile: (path) => ipcRenderer.invoke('find-file', path),
   fileList: (path) => ipcRenderer.invoke('file-list', path),
   getFileContent: (path) => ipcRenderer.invoke('get-file-content', path),
-  runDockerImage: (python, poetry) => ipcRenderer.invoke('run-docker-image', python, poetry)
+  runDockerImage: (python, poetry, folder) =>
+    ipcRenderer.invoke('run-docker-image', python, poetry, folder)
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to
@@ -18,7 +19,8 @@ if (process.contextIsolated) {
   try {
     contextBridge.exposeInMainWorld('electron', electronAPI)
     contextBridge.exposeInMainWorld('api', api)
-    contextBridge.exposeInMainWorld('darkmode', { // Expose darkMode API
+    contextBridge.exposeInMainWorld('darkmode', {
+      // Expose darkMode API
       toggle: () => ipcRenderer.invoke('dark-mode:toggle'),
       system: () => ipcRenderer.invoke('dark-mode:system')
     })
