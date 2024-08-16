@@ -26,6 +26,10 @@ function getFilesRecursive(dir) {
   return results
 }
 
+function getFileContent(path) {
+  return fs.readFileSync(path, 'utf8')
+}
+
 function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
@@ -102,7 +106,7 @@ app.whenReady().then(() => {
 
   // Given a path, return the content of the file
   ipcMain.handle('get-file-content', (event, path) => {
-    return fs.readFileSync(path, 'utf-8').toString()
+    return getFileContent(path)
   })
 
   createWindow()

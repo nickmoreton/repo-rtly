@@ -56,64 +56,16 @@
         <article id="choose-dockerfile">
           <!-- Dockerfile -->
           <header>
-            <h3>Dockerfile</h3>
+            <hgroup>
+              <h3>Dockerfile</h3>
+            </hgroup>
           </header>
           <p>Select the full path to the Dockerfile</p>
           <div id="dockerfiles"></div>
           <button id="build-button">Build Dockerfile</button>
-          <button id="show-button">Show Info</button>
-          <!-- <div id="dockerfile-info">
-              <ul id="dockerfile-versions">
-                <li>Python: <span id="python-version">N/A</span></li>
-                <li>Node: <span id="node-version">N/A</span></li>
-                <li>Poetry: <span id="poetry-version">N/A</span></li>
-              </ul>
-            </div> -->
-          <footer>
-            Used to determine the <strong>python</strong> and <strong>poetry</strong> version in use
-          </footer>
+          <div id="info"></div>
         </article>
-        <!-- pyproject.toml -->
-        <!-- <article>
-            <header><h3>pyproject.toml</h3></header>
-            <div role="group">
-              <select type="text" placeholder="Select the full path to the pyproject.toml file"></select>
-            </div>
-            <footer>Used to determine the required python dependency versions</footer>
-          </article> -->
-        <!-- </div> -->
-        <!-- requirements.txt -->
-        <!-- setup.py -->
-        <!-- Pipfile -->
-        <!-- Pipfile.lock -->
-        <!-- poetry.lock -->
       </div>
     </main>
-
-    <!-- <footer class="container-fluid" id="footer">
-      <p>Current theme source: <strong id="theme-source">System</strong></p>
-      <button id="toggle-dark-mode">Toggle Dark Mode</button>
-      <button id="reset-to-system">Reset to System Theme</button>
-      <button id="ipcHandler">Send IPC</button>
-      <small>
-        Electron Version <span class="electron-version"></span> Chrome Version
-        <span class="chrome-version"></span> Node Version <span class="node-version"></span>
-      </small>
-    </footer> -->
-
-    <!-- <template id="folder-chooser-template">
-      <div class="container-fluid">
-        <input type="file" id="files" webkitdirectory />
-        <button id="choose">Choose Folder</button>
-      </div>
-    </template>
-
-    <template id="dockerfile-chooser-template">
-      <div class="container-fluid" role="group">
-        <select id="dockerfile-chooser"></select>
-        <button id="cancel" class="secondary">Cancel</button>
-        <button id="continue">Continue</button>
-      </div>
-    </template> -->
   </body>
 </html>

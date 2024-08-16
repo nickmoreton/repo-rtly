@@ -4,62 +4,56 @@ class ChooseFiles {
     this.article = this.el.querySelector('#choose-dockerfile')
     this.dockerfiles = this.el.querySelector('#choose-dockerfile #dockerfiles')
     this.buildButton = this.el.querySelector('#choose-dockerfile #build-button')
-    this.showButton = this.el.querySelector('#choose-dockerfile #show-button')
     this.files = []
   }
 
   init() {
     this.article.style.opacity = 0.2
+    this.buildButton.setAttribute('disabled', 'true')
     this.buildButton.addEventListener('click', () => {
       const selectedDockerfile = this.dockerfiles.querySelector('input:checked')
       if (selectedDockerfile) {
         console.log(selectedDockerfile.value)
       }
     })
-    this.buildButton.setAttribute('disabled', 'true')
-    this.showButton.addEventListener('click', () => {
-      const selectedDockerfile = this.dockerfiles.querySelector('input:checked')
-      if (selectedDockerfile) {
-        window.api.openFile(selectedDockerfile.value)
-      }
-    })
-    this.showButton.setAttribute('disabled', 'true')
-    // this.articles.forEach((el) => {
-    //   el.style.opacity = 0.2
-    // el.querySelector('select').setAttribute('disabled', 'true')
-    // el.querySelector('select').innerHTML = ''
-    // })
   }
 
-  // extractDockerInfo(value) {
-  //   window.api.getFileContent(value).then((result) => {
-  //     console.log(result)
-  //     const lines = result.split('\n')
-  //     const dockerInfo = {
-  //       pythonVersion: '',
-  //       nodeVersion: '',
-  //       poetryVersion: ''
-  //     }
-  //     lines.forEach((line) => {
-  //       if (line.includes('FROM python')) {
-  //         dockerInfo.pythonVersion = line.split(' ')[1].split(':')[1]
-  //       }
-  //       if (line.includes('FROM node')) {
-  //         dockerInfo.nodeVersion = line.split(' ')[1].split(':')[1]
-  //       }
-  //       if (line.includes('ARG POETRY_VERSION')) {
-  //         dockerInfo.poetryVersion = line.split(' ')[1].split('=')[1]
-  //       }
-  //     })
-  //     console.log('extracting docker info', dockerInfo)
-  //   })
-  // }
+  extractInfo(dockerfileContent) {
+    const lines = dockerfileContent.split('\n')
+    const dockerInfo = {
+      pythonVersion: 'Not found',
+      nodeVersion: 'Not found',
+      poetryVersion: 'Not found'
+    }
+    lines.forEach((line) => {
+      if (line.includes('FROM python')) {
+        dockerInfo.pythonVersion = line.split(' ')[1].split(':')[1]
+      }
+      if (line.includes('FROM node')) {
+        dockerInfo.nodeVersion = line.split(' ')[1].split(':')[1]
+      }
+      if (line.includes('ARG POETRY_VERSION')) {
+        dockerInfo.poetryVersion = line.split(' ')[1].split('=')[1]
+      }
+    })
+    return dockerInfo
+  }
 
-  // extractPyprojectTomlInfo(value) {
-  //   window.api.getFileContent(value).then((result) => {
-  //     console.log(result)
-  //   })
-  // }
+  showInfo(info, container) {
+    // show the 3 versions in one line
+    container.innerHTML = '<h3>Dockerfile</h3>'
+    const p = document.createElement('p')
+    p.innerHTML = `
+      Python <strong>${info.pythonVersion}</strong> | 
+      Node <strong>${info.nodeVersion}</strong> | 
+      Poetry <strong>${info.poetryVersion}</strong>
+      `
+    container.appendChild(p)
+  }
+
+  buildDockefile(dockerfileContent) {
+    // console.log(dockerfileContent)
+  }
 
   getDockerFiles(files) {
     return new Promise((resolve) => {
@@ -76,33 +70,8 @@ class ChooseFiles {
     })
   }
 
-  // getPyprojectTomlFiles(files) {
-  //   return new Promise((resolve) => {
-  //     const matchedPyprojectTomlFiles = []
-  //     for (let i = 0; i < files.length; i++) {
-  //       const file = files[i]
-  //       // a regex to match these file names pyproject.toml, pyproject.toml.dev, pyproject.toml.prod
-  //       const match = new RegExp(/pyproject.toml(\.*)?/)
-  //       if (match.test(file)) {
-  //         matchedPyprojectTomlFiles.push(file)
-  //       }
-  //     }
-  //     resolve(matchedPyprojectTomlFiles)
-  //   })
-  // }
-
   folderSelected(event) {
-    // console.log(event)
-    // const dockerfiles = this.getDockerFiles(event.detail)
-    // const pyprojectTomlFiles = this.getPyprojectTomlFiles(event.detail)
-
-    // populate dockerfiles radio inputs
-    
-    // const container = this.el.querySelector('#choose-dockerfile')
-    // ul.classList.add('list-group')
     this.getDockerFiles(event.detail).then((result) => {
-      // const select = this.articles[0].querySelector('select')
-
       result.forEach((el) => {
         const item = document.createElement('p')
         const input = document.createElement('input')
@@ -112,7 +81,13 @@ class ChooseFiles {
         input.id = el
         input.addEventListener('change', (event) => {
           this.buildButton.removeAttribute('disabled')
-          this.showButton.removeAttribute('disabled')
+          const selectedDockerfile = event.target
+          if (selectedDockerfile) {
+            window.api.getFileContent(selectedDockerfile.value).then((result) => {
+              const info = this.extractInfo(result)
+              this.showInfo(info, this.el.querySelector('header hgroup'))
+            })
+          }
         })
         const label = document.createElement('label')
         label.htmlFor = el
@@ -121,63 +96,21 @@ class ChooseFiles {
         item.appendChild(label)
         this.dockerfiles.appendChild(item)
       })
-
-    // this.dockerfiles.appendChild(ul)
-
-      // select.addEventListener('change', (event) => {
-      //   this.extractDockerInfo(event.target.options[event.target.selectedIndex].value)
-      // })
-      // this.extractDockerInfo(select.options[select.selectedIndex].value)
     })
 
-    // populate pyproject.toml select
-    // pyprojectTomlFiles.then((result) => {
-    //   const select = this.articles[1].querySelector('select')
-    //   result.forEach((el) => {
-    //     const option = document.createElement('option')
-    //     option.value = el
-    //     option.text = el
-    //     select.appendChild(option)
-    //   })
-    //   select.addEventListener('change', (event) => {
-    //     this.extractPyprojectTomlInfo(event.target.options[event.target.selectedIndex].value)
-    //   })
-    //   this.extractPyprojectTomlInfo(select.options[select.selectedIndex].value)
-    // })
-
     this.article.style.opacity = 1
-    // this.articles.forEach((el) => {
-    //   el.style.opacity = 1
-    //   // el.querySelector('select').removeAttribute('disabled')
-    // })
   }
 
   folderSelecting() {
     this.article.style.opacity = 0.2
     this.dockerfiles.innerHTML = ''
-    // this.articles.forEach((el) => {
-    //   el.style.opacity = 0.2
-    //   if (this.el.querySelector('#choose-dockerfile #dockerfiles')) {
-    //     this.el.querySelector('#choose-dockerfile #dockerfiles').remove()
-    //   }
-
-    //   // el.querySelector('select').setAttribute('disabled', 'true')
-    //   // el.querySelector('select').innerHTML = ''
-    // })
+    this.el.querySelector('header hgroup').innerHTML = '<h3>Dockerfile</h3>'
   }
 
   reset() {
     this.article.style.opacity = 0.2
     this.dockerfiles.innerHTML = ''
-    // this.dockerfiles.remove()
-    // this.articles.forEach((el) => {
-    //   el.style.opacity = 0.2
-    //   if (this.el.querySelector('#choose-dockerfile #dockerfiles')) {
-    //     this.el.querySelector('#choose-dockerfile #dockerfiles').remove()
-    //   }
-    //   // el.querySelector('select').setAttribute('disabled', 'true')
-    //   // el.querySelector('select').innerHTML = ''
-    // })
+    this.el.querySelector('header hgroup').innerHTML = '<h3>Dockerfile</h3>'
   }
 }
 
