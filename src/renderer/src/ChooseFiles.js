@@ -11,10 +11,11 @@ class ChooseFiles {
     this.article.style.opacity = 0.2
     this.buildButton.setAttribute('disabled', 'true')
     this.buildButton.addEventListener('click', () => {
-      const selectedDockerfile = this.dockerfiles.querySelector('input:checked')
-      if (selectedDockerfile) {
-        console.log(selectedDockerfile.value)
-      }
+      const python = this.dockerInfo.pythonVersion
+      const poetry = this.dockerInfo.poetryVersion
+      window.api.runDockerImage(python, poetry).then((result) => {
+        console.log(result)
+      })
     })
   }
 
@@ -36,6 +37,7 @@ class ChooseFiles {
         dockerInfo.poetryVersion = line.split(' ')[1].split('=')[1]
       }
     })
+    this.dockerInfo = dockerInfo
     return dockerInfo
   }
 

@@ -7,7 +7,8 @@ const api = {
   openDialogFile: () => ipcRenderer.invoke('open-dialog-file'),
   findFile: (path) => ipcRenderer.invoke('find-file', path),
   fileList: (path) => ipcRenderer.invoke('file-list', path),
-  getFileContent: (path) => ipcRenderer.invoke('get-file-content', path)
+  getFileContent: (path) => ipcRenderer.invoke('get-file-content', path),
+  runDockerImage: (python, poetry) => ipcRenderer.invoke('run-docker-image', python, poetry)
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to

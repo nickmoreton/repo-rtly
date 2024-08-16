@@ -4,6 +4,7 @@ import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import fs from 'fs'
 import path from 'path'
+import Docker from './docker-run'
 
 // Function to get all files recursively in a specific directory
 function getFilesRecursive(dir) {
@@ -107,6 +108,42 @@ app.whenReady().then(() => {
   // Given a path, return the content of the file
   ipcMain.handle('get-file-content', (event, path) => {
     return getFileContent(path)
+  })
+
+  ipcMain.handle('run-docker-image', (event, python, poetry) => {
+    const docker = new Docker(python, poetry)
+    docker.run()
+    // build a docker image using a child process
+    // const docker = spawn('docker', ['run', '-it', 'python:3.8.5-slim-buster', 'bash'])
+    // const out = []
+    // const { spawn } = require('node:child_process')
+    // // const ls = spawn('ls', ['-lh', '/usr'])
+    // const ls = spawn('docker', [
+    //   'run',
+    //   '-v',
+    //   '/Users/nickmoreton/Sites/afc-wagtail:/app',
+    //   '-w',
+    //   '/app',
+    //   `python:${python}`,
+    //   'bash',
+    //   '-c',
+    //   `pip install poetry==${poetry} && poetry export --without-hashes`
+    // ])
+
+    // ls.stdout.on('data', (data) => {
+    //   console.log(`stdout: ${data}`)
+    //   out.push(data)
+    // })
+
+    // ls.stderr.on('data', (data) => {
+    //   console.error(`stderr: ${data}`)
+    //   out.push(data)
+    // })
+
+    // ls.on('close', (code) => {
+    //   console.log(`child process exited with code ${code}`)
+    //   console.log(out.join(''))
+    // })
   })
 
   createWindow()
