@@ -9,8 +9,8 @@ class Docker {
   }
 
   run() {
-    const out = []
-    const ls = spawn('docker', ['run', '-t', '--rm', ''])
+    // const out = []
+    // const ls = spawn('docker', ['run', '-t', '--rm', ''])
   }
 
   build() {

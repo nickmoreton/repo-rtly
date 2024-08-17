@@ -19,7 +19,8 @@ RUN pip install poetry-plugin-export
 RUN pip install poetry==${POETRY_VERSION}
 
 # Copy the poetry files
-COPY ./pyproject.toml ./poetry.lock ./
+# COPY ./pyproject.toml ./poetry.lock ./
+COPY . .
 
 # Install the dependencies
-RUN poetry install
+# RUN poetry install
