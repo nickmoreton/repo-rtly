@@ -53,7 +53,6 @@ function app() {
 
   window.addEventListener('folder-selected', (event) => {
     // listeners for the folder-selected event
-    console.log(event)
     chooseFiles.folderSelected(event)
   })
 
@@ -67,7 +66,11 @@ function app() {
     chooseFiles.reset()
     chooseFolder.reset()
   })
-}
 
+  window.addEventListener('docker-build', (event) => {
+    // listeners for the docker-build event
+    console.log(event.detail)
+  })
+}
 
 init()
