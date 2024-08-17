@@ -4,7 +4,7 @@ import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import fs from 'fs'
 import path from 'path'
-import Docker from './docker-run'
+import Docker from './docker'
 
 // Function to get all files recursively in a specific directory
 function getFilesRecursive(dir) {
