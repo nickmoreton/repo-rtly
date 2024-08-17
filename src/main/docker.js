@@ -31,17 +31,17 @@ class Docker {
     ])
 
     ls.stdout.on('data', (data) => {
-      console.log(`stdout: ${data}`)
+      console.log(`${data}`)
       out.push(data)
     })
 
     ls.stderr.on('data', (data) => {
-      console.error(`stderr: ${data}`)
+      console.error(`${data}`)
       out.push(data)
     })
 
     ls.on('close', (code) => {
-      console.log(`child process exited with code ${code}`)
+      console.log(`${code}`)
       console.log(out.join(''))
     })
   }
