@@ -37,6 +37,15 @@ class ChooseFiles {
       }
       if (line.includes('ARG POETRY_VERSION')) {
         dockerInfo.poetryVersion = line.split(' ')[1].split('=')[1]
+      } else if (line.includes('poetry==')) {
+        const split = line.split(' ')
+        split.forEach((part) => {
+          if (part.includes('poetry==')) {
+            dockerInfo.poetryVersion = part.split('==')[1]
+          } else {
+            dockerInfo.poetryVersion = '1.8.3' // current latest version as a fall back
+          }
+        })
       }
     })
     this.dockerInfo = dockerInfo
